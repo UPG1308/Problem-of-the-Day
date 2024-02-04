@@ -1,0 +1,94 @@
+class Solution {
+    public Node reverse(Node head) {
+        Node p = head, pre = null;
+        
+        while(p != null) {
+            Node nxt = p.next;
+            p.next = pre;
+            
+            pre = p;
+            p = nxt;
+        }
+        
+        return pre;
+    }
+    
+    public int lengthOfLL(Node head) {
+        int len = 0;
+        Node p = head;
+        
+        while(p != null) {
+            len++;
+            p = p.next;
+        }
+        
+        return len;
+    }
+
+    public Node subLinkedList(Node head1, Node head2) {
+        while(head1 != null && head1.data == 0)
+            head1 = head1.next;
+            
+        while(head2 != null && head2.data == 0)
+            head2 = head2.next;
+        
+        int n1 = lengthOfLL(head1), n2 = lengthOfLL(head2);
+        if(n2 > n1) {
+            Node temp = head1;
+            head1 = head2;
+            head2 = temp;
+        }
+        
+        if(n1 == n2) {
+            Node t1 = head1, t2 = head2;
+            while(t1 != null && t2 != null && t1.data == t2.data) {
+                t1 = t1.next;
+                t2 = t2.next;
+            }
+            
+            if(t1 == null && t2 == null)
+                return new Node(0);
+            
+            if(t1 != null && t2 != null && t2.data > t1.data) {
+                Node temp = head1;
+                head1 = head2;
+                head2 = temp;
+            }
+        }
+        
+        head1 = reverse(head1);
+        head2 = reverse(head2);
+        
+        Node t1 = head1, t2 = head2;
+        Node dummy = new Node(0);
+        Node p = dummy;
+        
+        while(t1 != null) {
+            int less = 0;
+            if(t2 != null)
+                less = t2.data;
+                
+            if(t1.data < less) {
+                if(t1.next != null)
+                    t1.next.data -= 1;
+                
+                t1.data += 10;
+            }
+            
+            p.next = new Node(t1.data - less);
+            p = p.next;    
+            t1 = t1.next;
+             
+            if(t2 != null) 
+                t2 = t2.next;
+        }
+        
+        dummy.next = reverse(dummy.next);
+        p = dummy.next;
+        
+        while(p != null && p.next != null && p.data == 0)
+            p = p.next;
+        
+        return p;
+    }
+}
