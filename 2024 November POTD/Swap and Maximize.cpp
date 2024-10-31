@@ -1,0 +1,16 @@
+long long maxSum(vector<int>& arr) {
+        // code here
+        sort(arr.begin(),arr.end());
+        int p=0;int q=1;
+        int j=arr.size()-1;
+        long long ans=0;
+        while(p<j)
+        {
+            ans+=abs(arr[p]-arr[j])+abs(arr[q]-arr[j]);
+            j--;
+            p++;q++;
+            if(p>=j)
+                ans+=abs(arr[p]-arr[0]);
+        }
+        return ans;
+    }
